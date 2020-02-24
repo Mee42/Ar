@@ -73,7 +73,7 @@ hs_err_pid*
 
 ### Gradle ###
 .gradle
-build/
+#build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -88,6 +88,6 @@ gradlewrapper.jar
 # gradle/wrapper/gradle-wrapper.properties
 
 ### Gradle Patch ###
-**/build/
+#**/build/
 
 # End of https://www.gitignore.io/api/git,java,linux,gradle,kotlin
