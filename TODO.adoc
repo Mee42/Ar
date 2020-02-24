@@ -1,0 +1,8 @@
+= Todo
+
+_In this order:_
+
+* arguments to functions
+* lambdas
+* generics
+* union types
