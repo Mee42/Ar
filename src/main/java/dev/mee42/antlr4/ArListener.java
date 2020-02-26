@@ -1,4 +1,4 @@
-// Generated from /home/carson/java/workspace/ar/src/main/antlr4/Ar.g4 by ANTLR 4.8
+// Generated from src/main/antlr4/Ar.g4 by ANTLR 4.8
 package dev.mee42.antlr4;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -50,17 +50,29 @@ public interface ArListener extends ParseTreeListener {
 	 */
 	void exitFunctionalType(ArParser.FunctionalTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code rawType}
+	 * Enter a parse tree produced by the {@code complexType}
 	 * labeled alternative in {@link ArParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void enterRawType(ArParser.RawTypeContext ctx);
+	void enterComplexType(ArParser.ComplexTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code rawType}
+	 * Exit a parse tree produced by the {@code complexType}
 	 * labeled alternative in {@link ArParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void exitRawType(ArParser.RawTypeContext ctx);
+	void exitComplexType(ArParser.ComplexTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code genericType}
+	 * labeled alternative in {@link ArParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void enterGenericType(ArParser.GenericTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code genericType}
+	 * labeled alternative in {@link ArParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void exitGenericType(ArParser.GenericTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code parenthesesType}
 	 * labeled alternative in {@link ArParser#type}.
@@ -73,6 +85,18 @@ public interface ArListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParenthesesType(ArParser.ParenthesesTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code baseType}
+	 * labeled alternative in {@link ArParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void enterBaseType(ArParser.BaseTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code baseType}
+	 * labeled alternative in {@link ArParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void exitBaseType(ArParser.BaseTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code integerValue}
 	 * labeled alternative in {@link ArParser#value}.

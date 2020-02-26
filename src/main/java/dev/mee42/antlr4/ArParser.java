@@ -1,4 +1,4 @@
-// Generated from /home/carson/java/workspace/ar/src/main/antlr4/Ar.g4 by ANTLR 4.8
+// Generated from src/main/antlr4/Ar.g4 by ANTLR 4.8
 package dev.mee42.antlr4;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -17,8 +17,8 @@ public class ArParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, INTEGER=8, IDENTIFIER=9, 
-		TYPE_IDENTIFIER=10, WHITESPACE=11;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
+		INTEGER=10, IDENTIFIER=11, OPERATOR=12, TYPE_IDENTIFIER=13, WHITESPACE=14;
 	public static final int
 		RULE_main = 0, RULE_definition = 1, RULE_typeDef = 2, RULE_type = 3, RULE_value = 4, 
 		RULE_lambda = 5;
@@ -31,14 +31,14 @@ public class ArParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "';'", "'='", "'=>'", "'->'", "'('", "')'", "'\\'"
+			null, "';'", "'='", "'=>'", "'->'", "'<'", "'>'", "'('", "')'", "'\\'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, "INTEGER", "IDENTIFIER", 
-			"TYPE_IDENTIFIER", "WHITESPACE"
+			null, null, null, null, null, null, null, null, null, null, "INTEGER", 
+			"IDENTIFIER", "OPERATOR", "TYPE_IDENTIFIER", "WHITESPACE"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -117,11 +117,6 @@ public class ArParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ArListener ) ((ArListener)listener).exitMain(this);
 		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ArVisitor ) return ((ArVisitor<? extends T>)visitor).visitMain(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final MainContext main() throws RecognitionException {
@@ -199,11 +194,6 @@ public class ArParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ArListener ) ((ArListener)listener).exitDefinition(this);
 		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ArVisitor ) return ((ArVisitor<? extends T>)visitor).visitDefinition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final DefinitionContext definition() throws RecognitionException {
@@ -247,11 +237,6 @@ public class ArParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ArListener ) ((ArListener)listener).exitTypeDef(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ArVisitor ) return ((ArVisitor<? extends T>)visitor).visitTypeDef(this);
-			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -307,27 +292,32 @@ public class ArParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ArListener ) ((ArListener)listener).exitFunctionalType(this);
 		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ArVisitor ) return ((ArVisitor<? extends T>)visitor).visitFunctionalType(this);
-			else return visitor.visitChildren(this);
-		}
 	}
-	public static class RawTypeContext extends TypeContext {
+	public static class ComplexTypeContext extends TypeContext {
 		public TerminalNode TYPE_IDENTIFIER() { return getToken(ArParser.TYPE_IDENTIFIER, 0); }
-		public RawTypeContext(TypeContext ctx) { copyFrom(ctx); }
+		public TypeContext type() {
+			return getRuleContext(TypeContext.class,0);
+		}
+		public ComplexTypeContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ArListener ) ((ArListener)listener).enterRawType(this);
+			if ( listener instanceof ArListener ) ((ArListener)listener).enterComplexType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ArListener ) ((ArListener)listener).exitRawType(this);
+			if ( listener instanceof ArListener ) ((ArListener)listener).exitComplexType(this);
+		}
+	}
+	public static class GenericTypeContext extends TypeContext {
+		public TerminalNode IDENTIFIER() { return getToken(ArParser.IDENTIFIER, 0); }
+		public GenericTypeContext(TypeContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArListener ) ((ArListener)listener).enterGenericType(this);
 		}
 		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ArVisitor ) return ((ArVisitor<? extends T>)visitor).visitRawType(this);
-			else return visitor.visitChildren(this);
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArListener ) ((ArListener)listener).exitGenericType(this);
 		}
 	}
 	public static class ParenthesesTypeContext extends TypeContext {
@@ -343,10 +333,17 @@ public class ArParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ArListener ) ((ArListener)listener).exitParenthesesType(this);
 		}
+	}
+	public static class BaseTypeContext extends TypeContext {
+		public TerminalNode TYPE_IDENTIFIER() { return getToken(ArParser.TYPE_IDENTIFIER, 0); }
+		public BaseTypeContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ArVisitor ) return ((ArVisitor<? extends T>)visitor).visitParenthesesType(this);
-			else return visitor.visitChildren(this);
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ArListener ) ((ArListener)listener).enterBaseType(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ArListener ) ((ArListener)listener).exitBaseType(this);
 		}
 	}
 
@@ -365,12 +362,12 @@ public class ArParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(38);
+			setState(44);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case TYPE_IDENTIFIER:
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+			case 1:
 				{
-				_localctx = new RawTypeContext(_localctx);
+				_localctx = new BaseTypeContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
@@ -378,24 +375,46 @@ public class ArParser extends Parser {
 				match(TYPE_IDENTIFIER);
 				}
 				break;
-			case T__4:
+			case 2:
+				{
+				_localctx = new ComplexTypeContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(34);
+				match(TYPE_IDENTIFIER);
+				setState(35);
+				match(T__4);
+				setState(36);
+				type(0);
+				setState(37);
+				match(T__5);
+				}
+				break;
+			case 3:
+				{
+				_localctx = new GenericTypeContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(39);
+				match(IDENTIFIER);
+				}
+				break;
+			case 4:
 				{
 				_localctx = new ParenthesesTypeContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(34);
-				match(T__4);
-				setState(35);
+				setState(40);
+				match(T__6);
+				setState(41);
 				type(0);
-				setState(36);
-				match(T__5);
+				setState(42);
+				match(T__7);
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(45);
+			setState(51);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -406,16 +425,16 @@ public class ArParser extends Parser {
 					{
 					_localctx = new FunctionalTypeContext(new TypeContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_type);
-					setState(40);
-					if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-					setState(41);
+					setState(46);
+					if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+					setState(47);
 					match(T__3);
-					setState(42);
-					type(4);
+					setState(48);
+					type(6);
 					}
 					} 
 				}
-				setState(47);
+				setState(53);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			}
@@ -454,11 +473,6 @@ public class ArParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ArListener ) ((ArListener)listener).exitIntegerValue(this);
 		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ArVisitor ) return ((ArVisitor<? extends T>)visitor).visitIntegerValue(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	public static class VariableCallValueContext extends ValueContext {
 		public TerminalNode IDENTIFIER() { return getToken(ArParser.IDENTIFIER, 0); }
@@ -470,11 +484,6 @@ public class ArParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ArListener ) ((ArListener)listener).exitVariableCallValue(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ArVisitor ) return ((ArVisitor<? extends T>)visitor).visitVariableCallValue(this);
-			else return visitor.visitChildren(this);
 		}
 	}
 	public static class FunctionApplicationValueContext extends ValueContext {
@@ -493,11 +502,6 @@ public class ArParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ArListener ) ((ArListener)listener).exitFunctionApplicationValue(this);
 		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ArVisitor ) return ((ArVisitor<? extends T>)visitor).visitFunctionApplicationValue(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	public static class LambdaValueContext extends ValueContext {
 		public LambdaContext lambda() {
@@ -512,11 +516,6 @@ public class ArParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ArListener ) ((ArListener)listener).exitLambdaValue(this);
 		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ArVisitor ) return ((ArVisitor<? extends T>)visitor).visitLambdaValue(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	public static class ParenthesesValueContext extends ValueContext {
 		public ValueContext value() {
@@ -530,11 +529,6 @@ public class ArParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ArListener ) ((ArListener)listener).exitParenthesesValue(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ArVisitor ) return ((ArVisitor<? extends T>)visitor).visitParenthesesValue(this);
-			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -553,7 +547,7 @@ public class ArParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(56);
+			setState(62);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 			case 1:
@@ -562,7 +556,7 @@ public class ArParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(49);
+				setState(55);
 				match(INTEGER);
 				}
 				break;
@@ -571,7 +565,7 @@ public class ArParser extends Parser {
 				_localctx = new VariableCallValueContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(50);
+				setState(56);
 				match(IDENTIFIER);
 				}
 				break;
@@ -580,12 +574,12 @@ public class ArParser extends Parser {
 				_localctx = new ParenthesesValueContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(51);
-				match(T__4);
-				setState(52);
+				setState(57);
+				match(T__6);
+				setState(58);
 				value(0);
-				setState(53);
-				match(T__5);
+				setState(59);
+				match(T__7);
 				}
 				break;
 			case 4:
@@ -593,13 +587,13 @@ public class ArParser extends Parser {
 				_localctx = new LambdaValueContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(55);
+				setState(61);
 				lambda();
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(62);
+			setState(68);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -610,14 +604,14 @@ public class ArParser extends Parser {
 					{
 					_localctx = new FunctionApplicationValueContext(new ValueContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_value);
-					setState(58);
+					setState(64);
 					if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-					setState(59);
+					setState(65);
 					value(4);
 					}
 					} 
 				}
-				setState(64);
+				setState(70);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			}
@@ -657,11 +651,6 @@ public class ArParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof ArListener ) ((ArListener)listener).exitLambda(this);
 		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ArVisitor ) return ((ArVisitor<? extends T>)visitor).visitLambda(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final LambdaContext lambda() throws RecognitionException {
@@ -671,32 +660,32 @@ public class ArParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(65);
-			match(T__4);
-			setState(67); 
+			setState(71);
+			match(T__6);
+			setState(73); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(66);
+				setState(72);
 				match(IDENTIFIER);
 				}
 				}
-				setState(69); 
+				setState(75); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==IDENTIFIER );
-			setState(71);
+			setState(77);
 			match(T__2);
-			setState(72);
+			setState(78);
 			type(0);
-			setState(73);
-			match(T__6);
-			setState(74);
+			setState(79);
+			match(T__8);
+			setState(80);
 			value(0);
-			setState(75);
-			match(T__5);
+			setState(81);
+			match(T__7);
 			}
 		}
 		catch (RecognitionException re) {
@@ -722,7 +711,7 @@ public class ArParser extends Parser {
 	private boolean type_sempred(TypeContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 3);
+			return precpred(_ctx, 5);
 		}
 		return true;
 	}
@@ -735,26 +724,28 @@ public class ArParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\rP\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\20V\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\5\2\21\n\2\3\2\5\2\24\n\2\7"+
 		"\2\26\n\2\f\2\16\2\31\13\2\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3\5\3\5\3\5"+
-		"\3\5\3\5\3\5\5\5)\n\5\3\5\3\5\3\5\7\5.\n\5\f\5\16\5\61\13\5\3\6\3\6\3"+
-		"\6\3\6\3\6\3\6\3\6\3\6\5\6;\n\6\3\6\3\6\7\6?\n\6\f\6\16\6B\13\6\3\7\3"+
-		"\7\6\7F\n\7\r\7\16\7G\3\7\3\7\3\7\3\7\3\7\3\7\3\7\2\4\b\n\b\2\4\6\b\n"+
-		"\f\2\2\2S\2\27\3\2\2\2\4\32\3\2\2\2\6\36\3\2\2\2\b(\3\2\2\2\n:\3\2\2\2"+
-		"\fC\3\2\2\2\16\21\5\4\3\2\17\21\5\6\4\2\20\16\3\2\2\2\20\17\3\2\2\2\21"+
-		"\23\3\2\2\2\22\24\7\3\2\2\23\22\3\2\2\2\23\24\3\2\2\2\24\26\3\2\2\2\25"+
-		"\20\3\2\2\2\26\31\3\2\2\2\27\25\3\2\2\2\27\30\3\2\2\2\30\3\3\2\2\2\31"+
-		"\27\3\2\2\2\32\33\7\13\2\2\33\34\7\4\2\2\34\35\5\n\6\2\35\5\3\2\2\2\36"+
-		"\37\7\13\2\2\37 \7\5\2\2 !\5\b\5\2!\7\3\2\2\2\"#\b\5\1\2#)\7\f\2\2$%\7"+
-		"\7\2\2%&\5\b\5\2&\'\7\b\2\2\')\3\2\2\2(\"\3\2\2\2($\3\2\2\2)/\3\2\2\2"+
-		"*+\f\5\2\2+,\7\6\2\2,.\5\b\5\6-*\3\2\2\2.\61\3\2\2\2/-\3\2\2\2/\60\3\2"+
-		"\2\2\60\t\3\2\2\2\61/\3\2\2\2\62\63\b\6\1\2\63;\7\n\2\2\64;\7\13\2\2\65"+
-		"\66\7\7\2\2\66\67\5\n\6\2\678\7\b\2\28;\3\2\2\29;\5\f\7\2:\62\3\2\2\2"+
-		":\64\3\2\2\2:\65\3\2\2\2:9\3\2\2\2;@\3\2\2\2<=\f\5\2\2=?\5\n\6\6><\3\2"+
-		"\2\2?B\3\2\2\2@>\3\2\2\2@A\3\2\2\2A\13\3\2\2\2B@\3\2\2\2CE\7\7\2\2DF\7"+
-		"\13\2\2ED\3\2\2\2FG\3\2\2\2GE\3\2\2\2GH\3\2\2\2HI\3\2\2\2IJ\7\5\2\2JK"+
-		"\5\b\5\2KL\7\t\2\2LM\5\n\6\2MN\7\b\2\2N\r\3\2\2\2\n\20\23\27(/:@G";
+		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5/\n\5\3\5\3\5\3\5\7\5\64\n\5\f"+
+		"\5\16\5\67\13\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6A\n\6\3\6\3\6\7\6E"+
+		"\n\6\f\6\16\6H\13\6\3\7\3\7\6\7L\n\7\r\7\16\7M\3\7\3\7\3\7\3\7\3\7\3\7"+
+		"\3\7\2\4\b\n\b\2\4\6\b\n\f\2\2\2[\2\27\3\2\2\2\4\32\3\2\2\2\6\36\3\2\2"+
+		"\2\b.\3\2\2\2\n@\3\2\2\2\fI\3\2\2\2\16\21\5\4\3\2\17\21\5\6\4\2\20\16"+
+		"\3\2\2\2\20\17\3\2\2\2\21\23\3\2\2\2\22\24\7\3\2\2\23\22\3\2\2\2\23\24"+
+		"\3\2\2\2\24\26\3\2\2\2\25\20\3\2\2\2\26\31\3\2\2\2\27\25\3\2\2\2\27\30"+
+		"\3\2\2\2\30\3\3\2\2\2\31\27\3\2\2\2\32\33\7\r\2\2\33\34\7\4\2\2\34\35"+
+		"\5\n\6\2\35\5\3\2\2\2\36\37\7\r\2\2\37 \7\5\2\2 !\5\b\5\2!\7\3\2\2\2\""+
+		"#\b\5\1\2#/\7\17\2\2$%\7\17\2\2%&\7\7\2\2&\'\5\b\5\2\'(\7\b\2\2(/\3\2"+
+		"\2\2)/\7\r\2\2*+\7\t\2\2+,\5\b\5\2,-\7\n\2\2-/\3\2\2\2.\"\3\2\2\2.$\3"+
+		"\2\2\2.)\3\2\2\2.*\3\2\2\2/\65\3\2\2\2\60\61\f\7\2\2\61\62\7\6\2\2\62"+
+		"\64\5\b\5\b\63\60\3\2\2\2\64\67\3\2\2\2\65\63\3\2\2\2\65\66\3\2\2\2\66"+
+		"\t\3\2\2\2\67\65\3\2\2\289\b\6\1\29A\7\f\2\2:A\7\r\2\2;<\7\t\2\2<=\5\n"+
+		"\6\2=>\7\n\2\2>A\3\2\2\2?A\5\f\7\2@8\3\2\2\2@:\3\2\2\2@;\3\2\2\2@?\3\2"+
+		"\2\2AF\3\2\2\2BC\f\5\2\2CE\5\n\6\6DB\3\2\2\2EH\3\2\2\2FD\3\2\2\2FG\3\2"+
+		"\2\2G\13\3\2\2\2HF\3\2\2\2IK\7\t\2\2JL\7\r\2\2KJ\3\2\2\2LM\3\2\2\2MK\3"+
+		"\2\2\2MN\3\2\2\2NO\3\2\2\2OP\7\5\2\2PQ\5\b\5\2QR\7\13\2\2RS\5\n\6\2ST"+
+		"\7\n\2\2T\r\3\2\2\2\n\20\23\27.\65@FM";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

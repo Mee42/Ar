@@ -1,4 +1,4 @@
-// Generated from /home/carson/java/workspace/ar/src/main/antlr4/Ar.g4 by ANTLR 4.8
+// Generated from src/main/antlr4/Ar.g4 by ANTLR 4.8
 package dev.mee42.antlr4;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -64,13 +64,25 @@ public class ArBaseListener implements ArListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRawType(ArParser.RawTypeContext ctx) { }
+	@Override public void enterComplexType(ArParser.ComplexTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRawType(ArParser.RawTypeContext ctx) { }
+	@Override public void exitComplexType(ArParser.ComplexTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGenericType(ArParser.GenericTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGenericType(ArParser.GenericTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -83,6 +95,18 @@ public class ArBaseListener implements ArListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParenthesesType(ArParser.ParenthesesTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBaseType(ArParser.BaseTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBaseType(ArParser.BaseTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -69,6 +69,7 @@
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="configurable.group.other" />
     <property name="show.migrate.to.gradle.popup" value="false" />
+    <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -77,15 +78,24 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="Application" factoryName="Application">
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <option name="TEST_OBJECT" value="class" />
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -99,15 +109,6 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <option name="MAIN_CLASS_NAME" value="dev.mee42.MainKt" />
       <option name="WORKING_DIRECTORY" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="TestNG">
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <properties />
-      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -150,6 +151,7 @@
       <workItem from="1582506384735" duration="1681000" />
       <workItem from="1582508089770" duration="120000" />
       <workItem from="1582508232947" duration="2927000" />
+      <workItem from="1582579868439" duration="395000" />
     </task>
     <servers />
   </component>
@@ -181,21 +183,25 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2414" y="290" width="428" height="474" key="FileChooserDialogImpl/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1582493523390" />
-    <state width="1838" height="401" key="GridCell.Tab.0.bottom" timestamp="1582511159803">
-      <screen x="1680" y="0" width="1920" height="1200" />
+    <state width="1320" height="239" key="GridCell.Tab.0.bottom" timestamp="1582580278860">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state width="1320" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1582580278860" />
     <state width="1838" height="401" key="GridCell.Tab.0.bottom/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1582511159803" />
-    <state width="1838" height="401" key="GridCell.Tab.0.center" timestamp="1582511159803">
-      <screen x="1680" y="0" width="1920" height="1200" />
+    <state width="1320" height="239" key="GridCell.Tab.0.center" timestamp="1582580278829">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state width="1320" height="239" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1582580278828" />
     <state width="1838" height="401" key="GridCell.Tab.0.center/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1582511159803" />
-    <state width="1838" height="401" key="GridCell.Tab.0.left" timestamp="1582511159802">
-      <screen x="1680" y="0" width="1920" height="1200" />
+    <state width="1320" height="239" key="GridCell.Tab.0.left" timestamp="1582580278816">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state width="1320" height="239" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1582580278816" />
     <state width="1838" height="401" key="GridCell.Tab.0.left/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1582511159802" />
-    <state width="1838" height="401" key="GridCell.Tab.0.right" timestamp="1582511159803">
-      <screen x="1680" y="0" width="1920" height="1200" />
+    <state width="1320" height="239" key="GridCell.Tab.0.right" timestamp="1582580278847">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state width="1320" height="239" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1582580278847" />
     <state width="1838" height="401" key="GridCell.Tab.0.right/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1582511159803" />
     <state x="2134" y="136" key="SettingsEditor" timestamp="1582493457602">
       <screen x="1680" y="0" width="1920" height="1200" />

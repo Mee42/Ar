@@ -1,17 +1,22 @@
 package dev.mee42
 
-import dev.mee42.parse.fullParseDefinition
-import dev.mee42.parse.fullParseValue
+import dev.mee42.parse.*
 import java.util.*
 import kotlin.system.exitProcess
 
 fun main() {
-    var variables = standardLibrary
 
+
+    val test = """
+id => a -> a
+id = (x => a -> a \ x)
+    """
+    var variables = standardLibrary + fullParse(test, standardLibrary.typedVariables)
+    
     val scanner = Scanner(System.`in`)
     var debug = false
     while(true) {
-        print("> ")
+        print("> ") 
         val input = scanner.nextLine().trim()
         if(input.isBlank()) continue
         if(input.startsWith(".")){
@@ -37,6 +42,11 @@ fun main() {
             val value = fullParseValue(realInput, variables)//.evaluate(realState)
             if(debug) println(value)
             println((if(realInput.length > 50) "*" else realInput) + " => " + value.type().toShowString())
+        } else if(input.startsWith(":p")) {
+            val realInput = input.substring(2).trim()
+            val type = fullParseType(realInput).restructure()//.evaluate(realState)
+            if(debug) println(type)
+            println(type.toShowString())
         } else {
             // it's just a statement
             val value = fullParseValue(input, variables)

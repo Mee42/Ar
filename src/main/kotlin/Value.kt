@@ -4,6 +4,8 @@ package dev.mee42
 sealed class Value {
     abstract fun evaluate(variableSet: VariableSet): Value
     abstract fun type(): Type
+    // abstract fun bind(genericType: String, type: Type):Type
+    // abstract fun unbound(): List<String>
     companion object {
         val VOID = InstantValue(Type.VOID, VoidValue)
     }
@@ -11,9 +13,21 @@ sealed class Value {
 
 private object VoidValue
 
+class BindedGenericValue(val value: Value, val bindings: Map<String,Type>) {
+    // typing
+}
+
+class GenericValue(val value: Value,
+                   val unboundGenerics: List<String>,
+                   val boundGenerics: Map<String,Type>)
+
+
+// this value is *never* generic
 data class InstantValue(val type: Type, val value: Any): Value() {
     override fun evaluate(variableSet: VariableSet): Value = this
     override fun type(): Type = type
+    // override fun bind(generic: String, type: type) = error("Can't find a generic type to an InstantValue")
+    // override fun unbound() = emptyList()
 }
 
 sealed class FunctionalValue: Value() {
@@ -22,7 +36,7 @@ sealed class FunctionalValue: Value() {
 
 
 data class CallableFunction(private val type: Type, private val functionName: String): FunctionalValue() {
-    override fun type(): Type = type
+    override fun type(): Type = type.restructure()
 
     override fun evaluate(arguments: List<Value>, variableSet: VariableSet): Value {
         val func = variableSet.variableList.firstOrNull { it.name == functionName }
@@ -81,7 +95,7 @@ data class ApplyFunction(private val function: FunctionalValue, private val appl
 
 data class LambdaFunction(private val namedArguments: List<TypedVariable>, private val type: Type, private val value: Value): FunctionalValue(){
     override fun evaluate(variableSet: VariableSet) = this
-    override fun type(): Type = type
+    override fun type(): Type = type.restructure()
 
     override fun evaluate(arguments: List<Value>, variableSet: VariableSet): Value {
         // alright, time to shine

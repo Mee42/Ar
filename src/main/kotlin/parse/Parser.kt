@@ -23,7 +23,7 @@ fun fullParse(fileContent: String, existingVariables: List<TypedVariable>): Vari
     }
     return VariableSet(variables.toSet())
 }
-fun fullParseType(type: String): Type {
+public fun fullParseType(type: String): Type {
     val tokens = CommonTokenStream(ArLexer(CharStreams.fromString(type)))
     val parser = ArParser(tokens)
     val typeDef = parser.type()
@@ -53,7 +53,7 @@ private fun parseTypeDef(typeDef : ArParser.TypeDefContext): TypedVariable {
 }
 private fun parseType(typeDef: ArParser.TypeContext): Type {
     return when(typeDef){
-        is ArParser.RawTypeContext -> RawType(typeDef.TYPE_IDENTIFIER().text)
+        is ArParser.BaseTypeContext -> BaseType(typeDef.TYPE_IDENTIFIER().text)
         is ArParser.ParenthesesTypeContext -> parseType(typeDef.type())
         is ArParser.FunctionalTypeContext -> { // yikes, a loop
             val list = mutableListOf<Type>()
@@ -62,13 +62,21 @@ private fun parseType(typeDef: ArParser.TypeContext): Type {
             while(tempType is ArParser.FunctionalTypeContext) {
                 list.add(parseType(tempType.type()[1]))
                 tempType = tempType.type()[0]
-                while(tempType is ArParser.ParenthesesTypeContext) {
-                    tempType = tempType.type()
-                }
+                // while(tempType is ArParser.ParenthesesTypeContext) {
+                //     tempType = tempType.type()
+                // }
             }
             list.add(parseType(tempType))
             list.reverse()
             FunctionType(list)
+        }
+        is ArParser.ComplexTypeContext -> {
+            val base = typeDef.TYPE_IDENTIFIER().text
+            val subType = parseType(typeDef.type())
+            ComplexType(base, subType)
+        }
+        is ArParser.GenericTypeContext -> {
+            GenericType(typeDef.IDENTIFIER().text)
         }
         else -> error("unknown type")
     }

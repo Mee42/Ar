@@ -7,9 +7,11 @@ definition: IDENTIFIER '=' value;
 
 typeDef: IDENTIFIER '=>' type;
 
-type: type '->' type    # functionalType
-    | TYPE_IDENTIFIER   # rawType
-    | '(' type ')'      # parenthesesType;
+type: type '->' type    			# functionalType
+    | TYPE_IDENTIFIER   			# baseType
+    | TYPE_IDENTIFIER '<' type '>'	# complexType
+    | IDENTIFIER                    # genericType
+    | '(' type ')'      			# parenthesesType;
 
 
 value: INTEGER            # integerValue
@@ -24,8 +26,10 @@ lambda: '(' IDENTIFIER+ '=>' type  '\\' value ')';
 
 INTEGER: [0-9]+; // for now, just integers
 
-IDENTIFIER: ([a-z][a-zA-Z0-9_:]*)|([+\-*/=><^@#!]+);
+IDENTIFIER: [a-z][a-zA-Z0-9_:]*;
 
+
+OPERATOR: [+\-*/=<^@#!]+;
 
 TYPE_IDENTIFIER: [A-Z][a-zA-Z0-9_]*;
 
