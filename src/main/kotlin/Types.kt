@@ -24,7 +24,7 @@ data class BaseType(val name: String): RawType() {
 data class ComplexType(val name: Either<BaseType,GenericType>, val subType: Type) :RawType() {
     override fun restructure(): Type = ComplexType(name, subType.restructure())
     override fun toShowString(needsParentheses: Boolean): String {
-        return name + "<" + subType.toShowString() + ">"
+        return name.use { it.toShowString() } + "<" + subType.toShowString() + ">"
     }
 }
 
