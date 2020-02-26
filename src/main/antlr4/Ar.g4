@@ -9,7 +9,7 @@ typeDef: IDENTIFIER '=>' type;
 
 type: type '->' type    			# functionalType
     | TYPE_IDENTIFIER   			# baseType
-    | TYPE_IDENTIFIER '<' type '>'	# complexType
+    | (TYPE_IDENTIFIER|IDENTIFIER) '<' type '>'	# complexType
     | IDENTIFIER                    # genericType
     | '(' type ')'      			# parenthesesType;
 

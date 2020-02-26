@@ -12,3 +12,9 @@ fun <A,R> Either<A,A>.use(func: (A) -> R):R {
 		// else -> error("bruh")
 	}
 }
+fun <A,B,R> Either<A,B>.yes(funcA: (A) -> R, funcB: (B) -> R):R {
+	return when(this) {
+		is Either.Left -> funcA(value)
+		is Either.Right -> funcB(value)
+	}
+}

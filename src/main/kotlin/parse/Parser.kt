@@ -71,6 +71,7 @@ private fun parseType(typeDef: ArParser.TypeContext): Type {
             FunctionType(list)
         }
         is ArParser.ComplexTypeContext -> {
+            if(ArParser)
             val base = typeDef.TYPE_IDENTIFIER().text
             val subType = parseType(typeDef.type())
             ComplexType(base, subType)

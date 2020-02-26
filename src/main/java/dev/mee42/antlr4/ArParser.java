@@ -294,10 +294,11 @@ public class ArParser extends Parser {
 		}
 	}
 	public static class ComplexTypeContext extends TypeContext {
-		public TerminalNode TYPE_IDENTIFIER() { return getToken(ArParser.TYPE_IDENTIFIER, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
+		public TerminalNode TYPE_IDENTIFIER() { return getToken(ArParser.TYPE_IDENTIFIER, 0); }
+		public TerminalNode IDENTIFIER() { return getToken(ArParser.IDENTIFIER, 0); }
 		public ComplexTypeContext(TypeContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -358,6 +359,7 @@ public class ArParser extends Parser {
 		TypeContext _prevctx = _localctx;
 		int _startState = 6;
 		enterRecursionRule(_localctx, 6, RULE_type, _p);
+		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
@@ -381,7 +383,15 @@ public class ArParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(34);
-				match(TYPE_IDENTIFIER);
+				_la = _input.LA(1);
+				if ( !(_la==IDENTIFIER || _la==TYPE_IDENTIFIER) ) {
+				_errHandler.recoverInline(this);
+				}
+				else {
+					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+					_errHandler.reportMatch(this);
+					consume();
+				}
 				setState(35);
 				match(T__4);
 				setState(36);
@@ -730,22 +740,22 @@ public class ArParser extends Parser {
 		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5/\n\5\3\5\3\5\3\5\7\5\64\n\5\f"+
 		"\5\16\5\67\13\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6A\n\6\3\6\3\6\7\6E"+
 		"\n\6\f\6\16\6H\13\6\3\7\3\7\6\7L\n\7\r\7\16\7M\3\7\3\7\3\7\3\7\3\7\3\7"+
-		"\3\7\2\4\b\n\b\2\4\6\b\n\f\2\2\2[\2\27\3\2\2\2\4\32\3\2\2\2\6\36\3\2\2"+
-		"\2\b.\3\2\2\2\n@\3\2\2\2\fI\3\2\2\2\16\21\5\4\3\2\17\21\5\6\4\2\20\16"+
-		"\3\2\2\2\20\17\3\2\2\2\21\23\3\2\2\2\22\24\7\3\2\2\23\22\3\2\2\2\23\24"+
-		"\3\2\2\2\24\26\3\2\2\2\25\20\3\2\2\2\26\31\3\2\2\2\27\25\3\2\2\2\27\30"+
-		"\3\2\2\2\30\3\3\2\2\2\31\27\3\2\2\2\32\33\7\r\2\2\33\34\7\4\2\2\34\35"+
-		"\5\n\6\2\35\5\3\2\2\2\36\37\7\r\2\2\37 \7\5\2\2 !\5\b\5\2!\7\3\2\2\2\""+
-		"#\b\5\1\2#/\7\17\2\2$%\7\17\2\2%&\7\7\2\2&\'\5\b\5\2\'(\7\b\2\2(/\3\2"+
-		"\2\2)/\7\r\2\2*+\7\t\2\2+,\5\b\5\2,-\7\n\2\2-/\3\2\2\2.\"\3\2\2\2.$\3"+
-		"\2\2\2.)\3\2\2\2.*\3\2\2\2/\65\3\2\2\2\60\61\f\7\2\2\61\62\7\6\2\2\62"+
-		"\64\5\b\5\b\63\60\3\2\2\2\64\67\3\2\2\2\65\63\3\2\2\2\65\66\3\2\2\2\66"+
-		"\t\3\2\2\2\67\65\3\2\2\289\b\6\1\29A\7\f\2\2:A\7\r\2\2;<\7\t\2\2<=\5\n"+
-		"\6\2=>\7\n\2\2>A\3\2\2\2?A\5\f\7\2@8\3\2\2\2@:\3\2\2\2@;\3\2\2\2@?\3\2"+
-		"\2\2AF\3\2\2\2BC\f\5\2\2CE\5\n\6\6DB\3\2\2\2EH\3\2\2\2FD\3\2\2\2FG\3\2"+
-		"\2\2G\13\3\2\2\2HF\3\2\2\2IK\7\t\2\2JL\7\r\2\2KJ\3\2\2\2LM\3\2\2\2MK\3"+
-		"\2\2\2MN\3\2\2\2NO\3\2\2\2OP\7\5\2\2PQ\5\b\5\2QR\7\13\2\2RS\5\n\6\2ST"+
-		"\7\n\2\2T\r\3\2\2\2\n\20\23\27.\65@FM";
+		"\3\7\2\4\b\n\b\2\4\6\b\n\f\2\3\4\2\r\r\17\17\2[\2\27\3\2\2\2\4\32\3\2"+
+		"\2\2\6\36\3\2\2\2\b.\3\2\2\2\n@\3\2\2\2\fI\3\2\2\2\16\21\5\4\3\2\17\21"+
+		"\5\6\4\2\20\16\3\2\2\2\20\17\3\2\2\2\21\23\3\2\2\2\22\24\7\3\2\2\23\22"+
+		"\3\2\2\2\23\24\3\2\2\2\24\26\3\2\2\2\25\20\3\2\2\2\26\31\3\2\2\2\27\25"+
+		"\3\2\2\2\27\30\3\2\2\2\30\3\3\2\2\2\31\27\3\2\2\2\32\33\7\r\2\2\33\34"+
+		"\7\4\2\2\34\35\5\n\6\2\35\5\3\2\2\2\36\37\7\r\2\2\37 \7\5\2\2 !\5\b\5"+
+		"\2!\7\3\2\2\2\"#\b\5\1\2#/\7\17\2\2$%\t\2\2\2%&\7\7\2\2&\'\5\b\5\2\'("+
+		"\7\b\2\2(/\3\2\2\2)/\7\r\2\2*+\7\t\2\2+,\5\b\5\2,-\7\n\2\2-/\3\2\2\2."+
+		"\"\3\2\2\2.$\3\2\2\2.)\3\2\2\2.*\3\2\2\2/\65\3\2\2\2\60\61\f\7\2\2\61"+
+		"\62\7\6\2\2\62\64\5\b\5\b\63\60\3\2\2\2\64\67\3\2\2\2\65\63\3\2\2\2\65"+
+		"\66\3\2\2\2\66\t\3\2\2\2\67\65\3\2\2\289\b\6\1\29A\7\f\2\2:A\7\r\2\2;"+
+		"<\7\t\2\2<=\5\n\6\2=>\7\n\2\2>A\3\2\2\2?A\5\f\7\2@8\3\2\2\2@:\3\2\2\2"+
+		"@;\3\2\2\2@?\3\2\2\2AF\3\2\2\2BC\f\5\2\2CE\5\n\6\6DB\3\2\2\2EH\3\2\2\2"+
+		"FD\3\2\2\2FG\3\2\2\2G\13\3\2\2\2HF\3\2\2\2IK\7\t\2\2JL\7\r\2\2KJ\3\2\2"+
+		"\2LM\3\2\2\2MK\3\2\2\2MN\3\2\2\2NO\3\2\2\2OP\7\5\2\2PQ\5\b\5\2QR\7\13"+
+		"\2\2RS\5\n\6\2ST\7\n\2\2T\r\3\2\2\2\n\20\23\27.\65@FM";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
