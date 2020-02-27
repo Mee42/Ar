@@ -1,8 +1,12 @@
 package dev.mee42
 
 sealed class Either<out A, out B> {
-    class Left<A>(val value: A): Either<A, Nothing>()
-    class Right<B>(val value: B): Either<Nothing, B>()
+    class Left<A>(val value: A): Either<A, Nothing>() {
+    	override fun toString() = value.toString()
+    }
+    class Right<B>(val value: B): Either<Nothing, B>() {
+    	override fun toString() = value.toString()
+    }
 }
 
 fun <A,R> Either<A,A>.use(func: (A) -> R):R {

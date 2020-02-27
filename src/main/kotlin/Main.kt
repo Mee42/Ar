@@ -47,6 +47,15 @@ id = (x => a -> a \ x)
             val type = fullParseType(realInput).restructure()//.evaluate(realState)
             if(debug) println(type)
             println(type.toShowString())
+        } else if(input.startsWith(":f")) {
+            val realInput = input.substring(2).trim()
+            val (typeStr, bindName, bindTypeStr) = realInput.split(":",limit = 3).map(String::trim)
+            val type = fullParseType(typeStr).restructure()
+            val bindType = fullParseType(bindTypeStr).restructure()
+            println("type: " + type.toShowString())
+            println("binding $bindName to " + bindType.toShowString())
+            val binded = type.bind(bindName, bindType).restructure()
+            println(binded.toShowString() + "    ($binded)")
         } else {
             // it's just a statement
             val value = fullParseValue(input, variables)

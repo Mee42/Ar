@@ -71,8 +71,9 @@ private fun parseType(typeDef: ArParser.TypeContext): Type {
             FunctionType(list)
         }
         is ArParser.ComplexTypeContext -> {
-            if(ArParser)
-            val base = typeDef.TYPE_IDENTIFIER().text
+            val base = typeDef.TYPE_IDENTIFIER()?.let { Either.Left(BaseType(it.text)) }
+                        ?: Either.Right(GenericType(typeDef.IDENTIFIER()!!.text))
+
             val subType = parseType(typeDef.type())
             ComplexType(base, subType)
         }
@@ -97,12 +98,12 @@ private fun parseValue(value: ArParser.ValueContext, variables: List<TypedVariab
             CallableFunction(variable.type, variable.name)
         }
         is ArParser.FunctionApplicationValueContext -> {
-            ApplyFunction(
-                function = parseValue(
+            ApplyFunction.createAndBind(
+                 parseValue(
                     value.value()[0],
                     variables
                 ) as? FunctionalValue ?: error("Can't apply value to \"${value.text}\""),
-                appliedValue = parseValue(value.value()[1], variables)
+                parseValue(value.value()[1], variables)
             )
         }
         is ArParser.ParenthesesValueContext -> {

@@ -4,8 +4,8 @@ package dev.mee42
 sealed class Value {
     abstract fun evaluate(variableSet: VariableSet): Value
     abstract fun type(): Type
-    // abstract fun bind(genericType: String, type: Type):Type
-    // abstract fun unbound(): List<String>
+    abstract fun bind(genericType: String, type: Type):Value
+    abstract fun unbound(): List<String>
     companion object {
         val VOID = InstantValue(Type.VOID, VoidValue)
     }
@@ -13,21 +13,13 @@ sealed class Value {
 
 private object VoidValue
 
-class BindedGenericValue(val value: Value, val bindings: Map<String,Type>) {
-    // typing
-}
-
-class GenericValue(val value: Value,
-                   val unboundGenerics: List<String>,
-                   val boundGenerics: Map<String,Type>)
-
 
 // this value is *never* generic
 data class InstantValue(val type: Type, val value: Any): Value() {
     override fun evaluate(variableSet: VariableSet): Value = this
     override fun type(): Type = type
-    // override fun bind(generic: String, type: type) = error("Can't find a generic type to an InstantValue")
-    // override fun unbound() = emptyList()
+    override fun bind(genericType: String, type: Type):Value = error("Can't find a generic type to an InstantValue")
+    override fun unbound(): List<String> = emptyList<String>()
 }
 
 sealed class FunctionalValue: Value() {
@@ -61,18 +53,56 @@ data class CallableFunction(private val type: Type, private val functionName: St
         }
         return this
     }
+    override fun unbound() = type.unbound()
+    override fun bind(genericType: String, type: Type):Value {
+        return CallableFunction(type.bind(genericType, type), functionName)
+    }
 }
 
 
-data class ApplyFunction(private val function: FunctionalValue, private val appliedValue: Value): FunctionalValue() {
+data class ApplyFunction private constructor(private val function: FunctionalValue, private val appliedValue: Value): FunctionalValue() {
     init {
         if(function.type() !is FunctionType) {
-            error("value (type: ${function.type().toShowString()}) is not a function, and can not be applied any values. Value: $function")
+            error("value (type: ${function.type().toShowString()}) is not a function, and can not be applied any values. Function: $function")
         }
         val type = (function.type() as FunctionType)
-        val canApply = type.types.first() == appliedValue.type()
-        if(!canApply) error("can't apply value of type ${appliedValue.type().toShowString()} to function of type ${function.type().toShowString()} - mismatched types")
+        if(type.types.first() != appliedValue.type())
+         error("can't apply value of type ${appliedValue.type().toShowString()} to function of type ${function.type().toShowString()} - mismatched types")
     }
+    companion object {
+        fun createAndBind(function: Value, applied: Value):ApplyFunction {
+            println("function: $function\napplied: $applied")
+            System.out.flush()
+            if(function !is FunctionalValue) error("can't apply to something that is not of type FunctionalValue")
+            if(function.type() !is FunctionType) {
+                error("value (type: ${function.type().toShowString()}) is not a function, and can not be applied any values. Value: $applied")
+            }
+            println("good")
+            val functionType = (function.type() as FunctionType)
+            val applyTo = functionType.types.first()
+            val applyFrom = applied.type()
+            // okay, this is reasonable
+            // just.. match the two up
+            // ez pz
+            // fuck
+            // uhhhhhh
+            if(applyTo.unbound().isEmpty() && applyFrom.unbound().isEmpty()) {
+                // ez case - no generics
+                if(applyTo != applyFrom) {
+                    error("can't apply value of type ${applied.type().toShowString()} to function of type ${function.type().toShowString()} - mismatched types")
+                } else {
+                    return ApplyFunction(function, applied)
+                }
+            }
+            // if applyTo is a generic type, the binding should be easy
+            if(applyTo is GenericType) {
+                // just bind it? lol
+                return ApplyFunction(function.bind(applyTo.identifier, applyFrom) as FunctionalValue,applied)
+            }
+            TODO("can't handle generic function application (of this complexity) right now")
+
+        }
+    } 
 
     override fun evaluate(arguments: List<Value>, variableSet: VariableSet): Value {
         return function.evaluate(arguments + listOf(appliedValue),variableSet)
@@ -91,6 +121,10 @@ data class ApplyFunction(private val function: FunctionalValue, private val appl
         val leftOverTypes = (function.type() as FunctionType).types.sublist(1)
         return FunctionType(leftOverTypes).restructure()
     }
+    override fun unbound() = type().unbound()
+    override fun bind(genericType: String, type: Type):Value {
+        return ApplyFunction(function.bind(genericType,type) as FunctionalValue, appliedValue.bind(genericType,type))
+    }
 }
 
 data class LambdaFunction(private val namedArguments: List<TypedVariable>, private val type: Type, private val value: Value): FunctionalValue(){
@@ -106,5 +140,11 @@ data class LambdaFunction(private val namedArguments: List<TypedVariable>, priva
             ActualVariable(name = namedArguments[index].name, value = value)
         }
         return value.evaluate(VariableSet(newVariables))
+    }
+    override fun unbound() = type().unbound()
+    override fun bind(genericType: String, type: Type):Value {
+        return LambdaFunction(namedArguments = namedArguments.map { (name, type) -> TypedVariable(name, type.bind(genericType,type)) },
+                              type = type.bind(genericType, type),
+                              value = value.bind(genericType, type))
     }
 }
