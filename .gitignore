@@ -91,3 +91,4 @@ gradlewrapper.jar
 #**/build/
 
 # End of https://www.gitignore.io/api/git,java,linux,gradle,kotlin
+build/
