@@ -37,7 +37,7 @@ data class CallableFunction(private val type: Type, private val functionName: St
             is ActualVariable -> {
                 val realVal =  func.value
                 realVal as? FunctionalValue ?: error("trying to apply arguments to value that is not a real type")
-                return realVal.evaluate(arguments, variableSet)
+                realVal.evaluate(arguments, variableSet)
             }
             is InternalVariable -> func.executor(arguments, variableSet)
         }
@@ -55,7 +55,7 @@ data class CallableFunction(private val type: Type, private val functionName: St
     }
     override fun unbound() = type.unbound()
     override fun bind(genericType: String, type: Type):Value {
-        return CallableFunction(type.bind(genericType, type), functionName)
+        return CallableFunction(this.type.bind(genericType, type), functionName)
     }
 }
 
@@ -71,13 +71,11 @@ data class ApplyFunction private constructor(private val function: FunctionalVal
     }
     companion object {
         fun createAndBind(function: Value, applied: Value):ApplyFunction {
-            println("function: $function\napplied: $applied")
             System.out.flush()
             if(function !is FunctionalValue) error("can't apply to something that is not of type FunctionalValue")
             if(function.type() !is FunctionType) {
                 error("value (type: ${function.type().toShowString()}) is not a function, and can not be applied any values. Value: $applied")
             }
-            println("good")
             val functionType = (function.type() as FunctionType)
             val applyTo = functionType.types.first()
             val applyFrom = applied.type()
@@ -99,6 +97,10 @@ data class ApplyFunction private constructor(private val function: FunctionalVal
                 // just bind it? lol
                 return ApplyFunction(function.bind(applyTo.identifier, applyFrom) as FunctionalValue,applied)
             }
+            // loop through each generic type and see what works? :thonk:
+            // for(testGeneric in unbound()) {
+            //     val newType = function.bind(testGeneric, applyFrom)
+            // }
             TODO("can't handle generic function application (of this complexity) right now")
 
         }
@@ -128,15 +130,19 @@ data class ApplyFunction private constructor(private val function: FunctionalVal
 }
 
 data class LambdaFunction(private val namedArguments: List<TypedVariable>, private val type: Type, private val value: Value): FunctionalValue(){
+
     override fun evaluate(variableSet: VariableSet) = this
     override fun type(): Type = type.restructure()
 
     override fun evaluate(arguments: List<Value>, variableSet: VariableSet): Value {
         // alright, time to shine
         val newVariables = variableSet.variableList.toMutableSet()
-        if(arguments.size != namedArguments.size) error("assertion failed")
+        if(arguments.size != namedArguments.size) error("assertion failed arguments:$arguments\n," + 
+            "\tnamedArguments: $namedArguments,\n" +
+            "\ttype of lambda: $type\n" + 
+            "\tvalue: $value\n")
         newVariables += arguments.mapIndexed { index, value ->
-            if(namedArguments[index].type != value.type()) error("assertion failed #2")
+            //if(namedArguments[index].type != value.type()) error("assertion failed #2")
             ActualVariable(name = namedArguments[index].name, value = value)
         }
         return value.evaluate(VariableSet(newVariables))

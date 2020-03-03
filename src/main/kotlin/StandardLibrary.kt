@@ -36,6 +36,16 @@ val standardLibrary = VariableSetBuilder.internal {
         }
     }
     intBiFunction("max") { a, b -> if(a > b) a else b }
+    func("toChar") {
+        type("Int -> String")
+        this.executor { (i), s -> 
+            InstantValue(Type.STRING, "" + i.evaluate(s).int().toInt().toChar())
+        }
+    }
+    func("id") {
+        type("a -> a")
+        this.executor { (i), s -> i }
+    }
 }.let { it + fullParse(stdlib, it.typedVariables) }
 
 

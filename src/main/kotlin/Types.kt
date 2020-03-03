@@ -4,6 +4,7 @@ sealed class Type {
     abstract fun restructure(): Type
     companion object {
         val INT = BaseType("Int")
+        val STRING = BaseType("String")
         val VOID = BaseType("Void")
     }
     abstract fun toShowString(needsParentheses: Boolean = false): String
@@ -84,5 +85,8 @@ data class FunctionType(val types: List<Type>): Type() {
     override fun bind(genericName: String, type: Type): Type {
         return FunctionType(types.map { it.bind(genericName, type) }).restructure()
     }
-    override fun unbound() = TODO()
+    override fun unbound():List<String> {
+        return types.flatMap { it.unbound() }.distinct()
+    }
 }
+// let apply = (func x => (a -> b) -> a -> b \ func x)
