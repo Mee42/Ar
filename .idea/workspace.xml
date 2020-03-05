@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c327334-2023-4628-81ea-0828a3e44526" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/carson.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/carson.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/META-INF/ar.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/META-INF/ar.kotlin_module" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/StandardLibrary.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/StandardLibrary.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Value.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Value.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Variables.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Variables.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,6 +177,7 @@
       <workItem from="1582508232947" duration="2927000" />
       <workItem from="1582579868439" duration="395000" />
       <workItem from="1583369934872" duration="4414000" />
+      <workItem from="1583441793480" duration="1943000" />
     </task>
     <servers />
   </component>
@@ -202,10 +201,10 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2252" y="266" width="765" height="604" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1582333818749" />
-    <state x="2082" y="-18" width="1105" height="1190" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1582507716370">
+    <state x="2080" y="-36" width="1105" height="1190" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1583443460494">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2082" y="-18" width="1105" height="1190" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1582507716370" />
+    <state x="2080" y="-36" width="1105" height="1190" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583443460494" />
     <state x="2648" y="2" width="934" height="1161" key="DiffContextDialog" timestamp="1583373273627">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
@@ -214,26 +213,26 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2414" y="290" width="428" height="474" key="FileChooserDialogImpl/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1582493523390" />
-    <state width="1838" height="401" key="GridCell.Tab.0.bottom" timestamp="1583374083766">
+    <state width="1838" height="401" key="GridCell.Tab.0.bottom" timestamp="1583442662968">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state width="1320" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1582580278860" />
-    <state width="1838" height="401" key="GridCell.Tab.0.bottom/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583374083766" />
-    <state width="1838" height="401" key="GridCell.Tab.0.center" timestamp="1583374083766">
+    <state width="1838" height="401" key="GridCell.Tab.0.bottom/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583442662968" />
+    <state width="1838" height="401" key="GridCell.Tab.0.center" timestamp="1583442662968">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state width="1320" height="239" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1582580278828" />
-    <state width="1838" height="401" key="GridCell.Tab.0.center/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583374083766" />
-    <state width="1838" height="401" key="GridCell.Tab.0.left" timestamp="1583374083766">
+    <state width="1838" height="401" key="GridCell.Tab.0.center/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583442662968" />
+    <state width="1838" height="401" key="GridCell.Tab.0.left" timestamp="1583442662968">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state width="1320" height="239" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1582580278816" />
-    <state width="1838" height="401" key="GridCell.Tab.0.left/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583374083766" />
-    <state width="1838" height="401" key="GridCell.Tab.0.right" timestamp="1583374083766">
+    <state width="1838" height="401" key="GridCell.Tab.0.left/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583442662968" />
+    <state width="1838" height="401" key="GridCell.Tab.0.right" timestamp="1583442662968">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state width="1320" height="239" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1582580278847" />
-    <state width="1838" height="401" key="GridCell.Tab.0.right/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583374083766" />
+    <state width="1838" height="401" key="GridCell.Tab.0.right/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583442662968" />
     <state x="2134" y="136" key="SettingsEditor" timestamp="1582493457602">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
@@ -250,16 +249,5 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2303" y="274" width="672" height="678" key="search.everywhere.popup/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583373584749" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/Value.kt</url>
-          <line>51</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

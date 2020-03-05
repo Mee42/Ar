@@ -5,7 +5,7 @@ data class TypedVariable(val name: String, val type: Type) {
         return "TypedVariable($name => ${type.toShowString()})"
     }
 }
-typealias InternalExecutor = (List<Value>, VariableSet) -> Value
+typealias InternalExecutor = (List<Value>, VariableCollection) -> Value
 
 sealed class NamedVariable(val name: String, val type: Type){
     override fun equals(other: Any?): Boolean {
@@ -25,15 +25,17 @@ sealed class NamedVariable(val name: String, val type: Type){
 class ActualVariable(name: String,val value: Value): NamedVariable(name, value.type())
 class InternalVariable(name: String, type: Type, val executor: InternalExecutor): NamedVariable(name, type)
 
-data class VariableSet(val variableList: Set<NamedVariable>) {
-    operator fun plus(other: VariableSet) = VariableSet(other.variableList + variableList)
-    operator fun plus(other: NamedVariable) : VariableSet {
-        val newSet = variableList.toMutableSet()
-        if(!newSet.add(other)){
-            newSet.remove(other)
-            newSet.add(other)
-        }
-        return VariableSet(newSet)
+data class VariableCollection(val localVariables: Set<NamedVariable>, val globalVariables: Set<NamedVariable>) {
+    fun bindLocalVariable(namedVariable: NamedVariable): VariableCollection {
+        return VariableCollection(localVariables + namedVariable, globalVariables)
     }
-    val typedVariables = variableList.map { TypedVariable(it.name, it.type) }
+    fun bindGlobalVariable(globalVariable: NamedVariable): VariableCollection {
+        return VariableCollection(localVariables, globalVariables)
+    }
+    val types = globalVariables.map { TypedVariable(it.name, it.type) } + localVariables.map { TypedVariable(it.name, it.type) }
+    fun findForName(name: String): NamedVariable {
+        return localVariables.firstOrNull { it.name == name }
+            ?: globalVariables.firstOrNull { it.name == name }
+            ?: error("can't find function $name (that was promised at runtime)")
+    }
 }

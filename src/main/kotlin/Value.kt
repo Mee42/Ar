@@ -2,7 +2,7 @@ package dev.mee42
 
 
 sealed class Value {
-    abstract fun evaluate(variableSet: VariableSet): Value
+    abstract fun evaluate(variables: VariableCollection): Value
     abstract fun type(): Type
     abstract fun bind(genericType: String, type: Type):Value
     abstract fun unbound(): List<String>
@@ -17,7 +17,7 @@ private object VoidValue
 
 // this value is *never* generic
 data class InstantValue(val type: Type, val value: Any): Value() {
-    override fun evaluate(variableSet: VariableSet): Value = this
+    override fun evaluate(variables: VariableCollection): Value = this
     override fun type(): Type = type
     override fun bind(genericType: String, type: Type):Value = this
     override fun unbound(): List<String> = emptyList()
@@ -27,33 +27,30 @@ data class InstantValue(val type: Type, val value: Any): Value() {
 }
 
 sealed class FunctionalValue: Value() {
-    abstract fun evaluate(arguments: List<Value>, variableSet: VariableSet): Value
+    abstract fun evaluate(arguments: List<Value>, variables: VariableCollection): Value
 }
 
 
 data class CallableFunction(private val type: Type, private val functionName: String): FunctionalValue() {
     override fun type(): Type = type.restructure()
 
-    override fun evaluate(arguments: List<Value>, variableSet: VariableSet): Value {
-        val func = variableSet.variableList.firstOrNull { it.name == functionName }
-            ?: error("can't find function $functionName (that was promised at runtime)")
-        return when(func){
+    override fun evaluate(arguments: List<Value>, variables: VariableCollection): Value {
+        return when(val func = variables.findForName(functionName)){
             is ActualVariable -> {
                 val realVal =  func.value
                 realVal as? FunctionalValue ?: error("trying to apply arguments to value that is not a real type")
-                realVal.evaluate(arguments, variableSet)
+                realVal.evaluate(arguments, variables)
             }
-            is InternalVariable -> func.executor(arguments, variableSet)
+            is InternalVariable -> func.executor(arguments, variables)
         }
     }
 
-    override fun evaluate(variableSet: VariableSet): Value {
-        val func = variableSet.variableList.firstOrNull { it.name == functionName }
-            ?: error("can't find function $functionName (that was promised at runtime)")
-        if(func is ActualVariable) return func.value.evaluate(variableSet)
+    override fun evaluate(variables: VariableCollection): Value {
+        val func = variables.findForName(functionName)
+        if(func is ActualVariable) return func.value.evaluate(variables)
         func as InternalVariable
         if(func.type.restructure() is RawType) {
-            return func.executor(emptyList(), variableSet)
+            return func.executor(emptyList(), variables)
         }
         return this
     }
@@ -113,15 +110,15 @@ data class ApplyFunction (private val function: FunctionalValue, private val app
         }
     } 
 
-    override fun evaluate(arguments: List<Value>, variableSet: VariableSet): Value {
-        return function.evaluate(listOf(appliedValue) + arguments,variableSet)
+    override fun evaluate(arguments: List<Value>, variables: VariableCollection): Value {
+        return function.evaluate(listOf(appliedValue) + arguments,variables)
     }
 
-    override fun evaluate(variableSet: VariableSet): Value {
+    override fun evaluate(variables: VariableCollection): Value {
         return when {
             type() is RawType -> {
                 // we can evaluate the internal command with our argument
-                function.evaluate(listOf(appliedValue),variableSet)
+                function.evaluate(listOf(appliedValue),variables)
             }
             type() is FunctionType -> {
                 this // you can't evaluate a function without a value
@@ -146,12 +143,12 @@ data class ApplyFunction (private val function: FunctionalValue, private val app
 
 data class LambdaFunction(private val namedArguments: List<TypedVariable>, private val type: Type, private val value: Value): FunctionalValue(){
 
-    override fun evaluate(variableSet: VariableSet) = this
+    override fun evaluate(variables: VariableCollection) = this
     override fun type(): Type = type.restructure()
 
-    override fun evaluate(arguments: List<Value>, variableSet: VariableSet): Value {
+    override fun evaluate(arguments: List<Value>, variableSet: VariableCollection): Value {
         // alright, time to shine
-        val newVariables = variableSet.variableList.toMutableSet()
+        val newVariables = variableSet.localVariables.toMutableSet()
         if(arguments.size < namedArguments.size) {
             println("this should never execute, but maybe it'll work anyway?")
             return this
@@ -164,7 +161,7 @@ data class LambdaFunction(private val namedArguments: List<TypedVariable>, priva
             newVariables += namedArguments.mapIndexed { index, typedVariable ->
                 ActualVariable(name = typedVariable.name, value = arguments[index])
             }
-            val stepOne =  value.evaluate(VariableSet(newVariables))
+            val stepOne =  value.evaluate(VariableCollection(localVariables = newVariables,globalVariables =  variableSet.globalVariables))
             stepOne as? FunctionalValue ?: error("can't apply more arguments to $stepOne")
             return stepOne.evaluate(arguments.subList(namedArguments.size, arguments.size), variableSet)
         }
@@ -172,7 +169,7 @@ data class LambdaFunction(private val namedArguments: List<TypedVariable>, priva
             //if(namedArguments[index].type != value.type()) error("assertion failed #2")
             ActualVariable(name = namedArguments[index].name, value = value)
         }
-        return value.evaluate(VariableSet(newVariables))
+        return value.evaluate(VariableCollection(localVariables = newVariables, globalVariables = variableSet.globalVariables))
     }
     override fun unbound() = type().unbound()
     override fun toString(indent: String, valueName: String): String {

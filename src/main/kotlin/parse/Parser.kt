@@ -38,10 +38,10 @@ fun fullParseDefinition(input: String, variables: List<TypedVariable>): ActualVa
     val value = parseValue(typeDef.value(), variables)
     return ActualVariable(identifier, value)
 }
-fun fullParseValue(string: String, variableSet: VariableSet): Value {
+fun fullParseValue(string: String, variableSet: VariableCollection): Value {
     val tokens = CommonTokenStream(ArLexer(CharStreams.fromString(string)))
     val parser = ArParser(tokens)
-    return parseValue(parser.value(), variableSet.typedVariables)
+    return parseValue(parser.value(), variableSet.types)
 }
 
 

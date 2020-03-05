@@ -13,6 +13,9 @@ fun main() {
         
         count => Int -> Int -> Int
         count = (n i => Int -> Int -> Int \ if (max (sub 100 n) 0) (count (add n 1) (add n i)) (i))
+        
+        loop => Int -> Int
+        loop = (x => Int -> Int \ if (sub x 100) (trace x (loop (add x 1))) 1)
     """.trimIndent()
     var variables = standardLibrary + fullParse(test, standardLibrary.typedVariables)
     

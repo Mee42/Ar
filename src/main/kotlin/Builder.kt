@@ -16,8 +16,8 @@ class VariableSetBuilder {
     }
 
     companion object {
-        fun internal(block: VariableSetBuilder.() -> Unit): VariableSet {
-            return VariableSet(VariableSetBuilder().apply(block).list.toSet())
+        fun internal(block: VariableSetBuilder.() -> Unit): VariableCollection {
+            return VariableCollection(emptySet(), VariableSetBuilder().apply(block).list.toSet())
         }
     }
 }

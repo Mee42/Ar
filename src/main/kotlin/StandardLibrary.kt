@@ -29,7 +29,13 @@ val standardLibrary = VariableSetBuilder.internal {
     func("toChar") {
         type("Int -> String")
         this.executor { (i), s -> 
-            InstantValue(Type.STRING, "" + i.evaluate(s).int().toInt().toChar())
+            InstantValue(Type.STRING, "" + i.evaluate(s).int().toChar())
+        }
+    }
+    func("trace"){
+        type("Int -> a -> a")
+        this.executor { (index, v), s ->
+            println("trace:${index.evaluate(s).int()}"); v.evaluate(s)
         }
     }
     func("if") {
