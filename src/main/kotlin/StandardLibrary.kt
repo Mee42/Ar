@@ -25,16 +25,6 @@ val standardLibrary = VariableSetBuilder.internal {
     intBiFunction("times", Int::times)
     intBiFunction("div", Int::div)
     intBiFunction("==") { a, b -> if(a == b) 1 else 0 }
-    func("if") {
-        type("(Int -> Int) -> (Int -> Int) -> Int -> Int")
-        this.executor { (`if`,`else`, predicate), s ->
-            if(predicate.evaluate(s).int() != 0){
-                (`if` as FunctionalValue).evaluate(listOf(predicate.evaluate(s)), s)
-            } else {
-                (`else` as FunctionalValue).evaluate(listOf(predicate.evaluate(s)), s)
-            }
-        }
-    }
     intBiFunction("max") { a, b -> if(a > b) a else b }
     func("toChar") {
         type("Int -> String")
@@ -42,10 +32,21 @@ val standardLibrary = VariableSetBuilder.internal {
             InstantValue(Type.STRING, "" + i.evaluate(s).int().toInt().toChar())
         }
     }
-    func("id") {
-        type("a -> a")
-        this.executor { (i), s -> i }
+    func("if") {
+        type("Int -> b -> b -> b")
+        this.executor { (predicate, `if`, `else`), s ->
+            if(predicate.evaluate(s).int() != 0) {
+                // 0 is falsy, ~0 is truthy
+                `if`.evaluate(s)
+            } else {
+                `else`.evaluate(s)
+            }
+        }
     }
+//    func("id") {
+//        type("a -> a")
+//        this.executor { (i), s -> i }
+//    }
 }.let { it + fullParse(stdlib, it.typedVariables) }
 
 

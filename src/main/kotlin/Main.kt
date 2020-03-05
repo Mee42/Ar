@@ -7,7 +7,13 @@ import kotlin.system.exitProcess
 fun main() {
 
 
-    val test = """"""
+    val test = """
+        id => a -> a
+        id = (x => a -> a \ x)
+        
+        count => Int -> Int -> Int
+        count = (n i => Int -> Int -> Int \ if (max (sub 100 n) 0) (count (add n 1) (add n i)) (i))
+    """.trimIndent()
     var variables = standardLibrary + fullParse(test, standardLibrary.typedVariables)
     
     val scanner = Scanner(System.`in`)
@@ -58,10 +64,14 @@ fun main() {
                 println(binded.toShowString() + "    ($binded)")
             } else {
                 // it's just a statement
-                val value = fullParseValue(input, variables)
-                if(debug) println(value)
-                val end = value.evaluate(variables)
+                var value = fullParseValue(input, variables)
                 variables += ActualVariable(name = "last",value = value)
+                if(debug) println(value.toString("","value"))
+                var end = value.evaluate(variables)
+//                while(end != value){
+//                    value = end
+//                    end = end.evaluate(variables)
+//                }
 
                 if(end is InstantValue) {
                     println(end.value)
@@ -72,6 +82,7 @@ fun main() {
         }catch(e: Exception) {
             e.printStackTrace()
             System.out.flush()
+            System.err.flush()
         }
     }
 }
