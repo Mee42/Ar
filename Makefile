@@ -3,7 +3,10 @@
 run: build/libs/ar-1.0-SNAPSHOT-all.jar 
 	java -jar build/libs/ar-1.0-SNAPSHOT-all.jar 
 
-.PHONY: run
+test:
+	./gradlew test
+
+.PHONY: run test
 
 all_files := $(shell find src/ -type f -name '*.kt')
 
