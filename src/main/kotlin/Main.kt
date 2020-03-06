@@ -16,8 +16,15 @@ fun main() {
         
         loop => Int -> Int
         loop = (x => Int -> Int \ if (sub x 100) (trace x (loop (add x 1))) 1)
+
+        incr => Int -> Int
+        incr = (x => Int -> Int \ add 1 x)
+        
+        incr2 => Int -> Int
+        incr2 = (x => Int -> Int \ incr (add 1 x))
     """.trimIndent()
-    var variables = standardLibrary + fullParse(test, standardLibrary.typedVariables)
+
+    var variables: VariableSet = standardLibrary + fullParse(test, standardLibrary.types)
     
     val scanner = Scanner(System.`in`)
     var debug = false
@@ -41,17 +48,17 @@ fun main() {
             if(input.startsWith("let")) {
                 // it's a definition
                 val realInput = input.substring(3).trim()
-                val definition = fullParseDefinition(realInput, variables.typedVariables)
-                variables += definition
+                val definition = fullParseDefinition(realInput, variables.types)
+                 variables += definition // TODO adding this to this only works once
             } else if(input.startsWith(":t")) {
                 // :t 12
                 // 01234
                 //  ^\-/
                 val realInput = input.substring(2).trim()
-                val value = fullParseValue(realInput, variables)//.evaluate(realState)
+                val value = fullParseValue(realInput, variables.types)//.evaluate(realState)
                 if(debug) println(value)
                 println((if(realInput.length > 50) "*" else realInput) + " => " + value.type().toShowString())
-            } else if(input.startsWith(":p")) {
+            /*} else if(input.startsWith(":p")) {
                 val realInput = input.substring(2).trim()
                 val type = fullParseType(realInput).restructure()//.evaluate(realState)
                 if(debug) println(type)
@@ -65,16 +72,12 @@ fun main() {
                 println("binding $bindName to " + bindType.toShowString())
                 val binded = type.bind(bindName, bindType).restructure()
                 println(binded.toShowString() + "    ($binded)")
-            } else {
+            */} else {
                 // it's just a statement
-                var value = fullParseValue(input, variables)
-                variables += ActualVariable(name = "last",value = value)
+                var value = fullParseValue(input, variables.types)
+                variables = variables +  ActualVariable(name = "last",value = value)
                 if(debug) println(value.toString("","value"))
-                var end = value.evaluate(variables)
-//                while(end != value){
-//                    value = end
-//                    end = end.evaluate(variables)
-//                }
+                var end = value.evaluate(VariableCollection(emptySet(), variables))
 
                 if(end is InstantValue) {
                     println(end.value)

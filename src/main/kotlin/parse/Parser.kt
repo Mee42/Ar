@@ -21,7 +21,7 @@ fun fullParse(fileContent: String, existingVariables: List<TypedVariable>): Vari
         }
         ActualVariable(identifier, value)
     }
-    return VariableSet(variables.toSet())
+    return variables.toSet()
 }
 public fun fullParseType(type: String): Type {
     val tokens = CommonTokenStream(ArLexer(CharStreams.fromString(type)))
@@ -38,10 +38,10 @@ fun fullParseDefinition(input: String, variables: List<TypedVariable>): ActualVa
     val value = parseValue(typeDef.value(), variables)
     return ActualVariable(identifier, value)
 }
-fun fullParseValue(string: String, variableSet: VariableCollection): Value {
+fun fullParseValue(string: String, variables: List<TypedVariable>): Value {
     val tokens = CommonTokenStream(ArLexer(CharStreams.fromString(string)))
     val parser = ArParser(tokens)
-    return parseValue(parser.value(), variableSet.types)
+    return parseValue(parser.value(), variables)
 }
 
 
@@ -115,7 +115,7 @@ private fun parseValue(value: ArParser.ValueContext, variables: List<TypedVariab
         else -> error("unsupported value type " + value.javaClass.name)
     }
 }
-private fun parseLambda(lambda: ArParser.LambdaContext, variableSet: List<TypedVariable>): Value {
+private fun parseLambda(lambda: ArParser.LambdaContext, variables: List<TypedVariable>): Value {
     val type = parseType(lambda.type())
     val arguments = lambda.IDENTIFIER()// size >= 1
     type as? FunctionType ?: error("lambda must be of a function type - ie, not constant: ${type.toShowString()}")
@@ -125,9 +125,9 @@ private fun parseLambda(lambda: ArParser.LambdaContext, variableSet: List<TypedV
     val typedVariables = arguments
         .map { it.symbol.text }
         .mapIndexed { i, name -> TypedVariable(name, type.types[i]) }
-    variableSet.firstOrNull { typedVariables.any { typed -> typed.name == it.name } }?.let {
+    variables.firstOrNull { typedVariables.any { typed -> typed.name == it.name } }?.let {
         error("Can't use ${it.name} as an identifier as it is already used")
     }
-    val value = parseValue(lambda.value(), variableSet + typedVariables)
+    val value = parseValue(lambda.value(), variables + typedVariables)
     return LambdaFunction(namedArguments = typedVariables, type = type,value = value)
 }

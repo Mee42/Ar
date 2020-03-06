@@ -25,6 +25,11 @@ sealed class NamedVariable(val name: String, val type: Type){
 class ActualVariable(name: String,val value: Value): NamedVariable(name, value.type())
 class InternalVariable(name: String, type: Type, val executor: InternalExecutor): NamedVariable(name, type)
 
+typealias VariableSet = Set<NamedVariable>
+
+val VariableSet.types :List<TypedVariable>
+    get() = this.toList().map { TypedVariable(it.name, it.type) }
+
 data class VariableCollection(val localVariables: Set<NamedVariable>, val globalVariables: Set<NamedVariable>) {
     fun bindLocalVariable(namedVariable: NamedVariable): VariableCollection {
         return VariableCollection(localVariables + namedVariable, globalVariables)

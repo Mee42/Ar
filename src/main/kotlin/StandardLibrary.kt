@@ -53,7 +53,7 @@ val standardLibrary = VariableSetBuilder.internal {
 //        type("a -> a")
 //        this.executor { (i), s -> i }
 //    }
-}.let { it + fullParse(stdlib, it.typedVariables) }
+}//.let { it + fullParse(stdlib, it.types) }
 
 
 private fun VariableSetBuilder.intBiFunction(symbol: String, bifunction: (Int, Int) -> Int) {
@@ -67,7 +67,7 @@ private fun InternalFunctionBuilder.execute(block: InternalFunctionBuilderHelper
     executor { list, state -> block(InternalFunctionBuilderHelper(state, list)) }
 }
 
-private class InternalFunctionBuilderHelper(val variableSet: VariableSet, private val values: List<Value>) {
+private class InternalFunctionBuilderHelper(val variableSet: VariableCollection, private val values: List<Value>) {
     fun int(i: Int): Int {
         val value = values[i].evaluate(variableSet) as? InstantValue ?: error("not an int value")
         if(value.type != Type.INT) error("type is not of int")

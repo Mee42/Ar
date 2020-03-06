@@ -31,26 +31,59 @@ sealed class FunctionalValue: Value() {
 }
 
 
+data class ContextualizedValue(private val value: Value, val context: Set<NamedVariable>): FunctionalValue() {
+    override fun type(): Type = value.type()
+    override fun evaluate(arguments: List<Value>, variables: VariableCollection): Value {
+        return (value as FunctionalValue).evaluate(arguments, VariableCollection(context, variables.globalVariables))
+    }
+    override fun evaluate(variables: VariableCollection): Value {
+        return value.evaluate(VariableCollection(context, variables.globalVariables))
+    }
+    override fun unbound() = type().unbound()
+    override fun toString(indent: String, valueName: String): String {
+        return "${indent}_$valueName: ContextualizedValue($context)\n" + value.toString(indent + "__","value") 
+    }
+
+    override fun bind(genericType: String, type: Type):Value {
+        return ContextualizedValue(value.bind(genericType, type), context)
+    }
+}
+
 data class CallableFunction(private val type: Type, private val functionName: String): FunctionalValue() {
     override fun type(): Type = type.restructure()
 
     override fun evaluate(arguments: List<Value>, variables: VariableCollection): Value {
+        val contextualizedVariables = variables.localVariables.map { it -> 
+            if(it is ActualVariable) {
+                ActualVariable(name = it.name, value = ContextualizedValue(value = it.value, context = variables.localVariables))
+            } else {
+                it
+            }
+        }.toSet()
         return when(val func = variables.findForName(functionName)){
             is ActualVariable -> {
                 val realVal =  func.value
                 realVal as? FunctionalValue ?: error("trying to apply arguments to value that is not a real type")
-                realVal.evaluate(arguments, variables)
+                realVal.evaluate(arguments, VariableCollection(contextualizedVariables, variables.globalVariables))
             }
-            is InternalVariable -> func.executor(arguments, variables)
+            is InternalVariable -> func.executor(arguments, VariableCollection(contextualizedVariables, variables.globalVariables))
         }
     }
 
     override fun evaluate(variables: VariableCollection): Value {
+        val contextualizedVariables = variables.localVariables.map { it -> 
+            if(it is ActualVariable) {
+                ActualVariable(name = it.name, value = ContextualizedValue(value = it.value, context = variables.localVariables))
+            } else {
+                it
+            }
+        }.toSet()
+        val contextualized = VariableCollection(localVariables = contextualizedVariables, globalVariables = variables.globalVariables)
         val func = variables.findForName(functionName)
-        if(func is ActualVariable) return func.value.evaluate(variables)
+        if(func is ActualVariable) return func.value.evaluate(contextualized)
         func as InternalVariable
         if(func.type.restructure() is RawType) {
-            return func.executor(emptyList(), variables)
+            return func.executor(emptyList(), contextualized)
         }
         return this
     }
@@ -146,30 +179,23 @@ data class LambdaFunction(private val namedArguments: List<TypedVariable>, priva
     override fun evaluate(variables: VariableCollection) = this
     override fun type(): Type = type.restructure()
 
-    override fun evaluate(arguments: List<Value>, variableSet: VariableCollection): Value {
+    override fun evaluate(arguments: List<Value>, variables: VariableCollection): Value {
         // alright, time to shine
-        val newVariables = variableSet.localVariables.toMutableSet()
         if(arguments.size < namedArguments.size) {
             println("this should never execute, but maybe it'll work anyway?")
             return this
-//            error("assertion failed\narguments:$arguments\n" +
-//                    "\tnamedArguments: $namedArguments,\n" +
-//                    "\ttype of lambda: $type\n" +
-//                    "\tvalue: $value")
-        } else if(arguments.size > namedArguments.size) {
+        }
+        val newVariables = namedArguments.mapIndexed { index, typedVariable ->
+            ActualVariable(name = typedVariable.name, value = arguments[index])
+        }.toSet()
+        if(arguments.size > namedArguments.size) { // we didn't bind everything
             // apply just what we need to, and then apply the result to the result
-            newVariables += namedArguments.mapIndexed { index, typedVariable ->
-                ActualVariable(name = typedVariable.name, value = arguments[index])
-            }
-            val stepOne =  value.evaluate(VariableCollection(localVariables = newVariables,globalVariables =  variableSet.globalVariables))
+            val stepOne =  value.evaluate(VariableCollection(localVariables = newVariables,globalVariables =  variables.globalVariables))
             stepOne as? FunctionalValue ?: error("can't apply more arguments to $stepOne")
-            return stepOne.evaluate(arguments.subList(namedArguments.size, arguments.size), variableSet)
+            return stepOne.evaluate(arguments.subList(namedArguments.size, arguments.size), variables)
         }
-        newVariables += arguments.mapIndexed { index, value ->
-            //if(namedArguments[index].type != value.type()) error("assertion failed #2")
-            ActualVariable(name = namedArguments[index].name, value = value)
-        }
-        return value.evaluate(VariableCollection(localVariables = newVariables, globalVariables = variableSet.globalVariables))
+        // if we did bind every variable
+        return value.evaluate(VariableCollection(localVariables = newVariables + variables.localVariables, globalVariables = variables.globalVariables))
     }
     override fun unbound() = type().unbound()
     override fun toString(indent: String, valueName: String): String {

@@ -1,6 +1,7 @@
 package dev.mee42
 
 import dev.mee42.parse.fullParseType
+import dev.mee42.VariableSet
 
 @DslMarker
 annotation class Builder
@@ -16,8 +17,8 @@ class VariableSetBuilder {
     }
 
     companion object {
-        fun internal(block: VariableSetBuilder.() -> Unit): VariableCollection {
-            return VariableCollection(emptySet(), VariableSetBuilder().apply(block).list.toSet())
+        fun internal(block: VariableSetBuilder.() -> Unit): VariableSet {
+            return VariableSetBuilder().apply(block).list.toSet()
         }
     }
 }
