@@ -53,7 +53,7 @@ val standardLibrary = VariableSetBuilder.internal {
 //        type("a -> a")
 //        this.executor { (i), s -> i }
 //    }
-}//.let { it + fullParse(stdlib, it.types) }
+}.let { it + fullParse(stdlib, it.types) }
 
 
 private fun VariableSetBuilder.intBiFunction(symbol: String, bifunction: (Int, Int) -> Int) {

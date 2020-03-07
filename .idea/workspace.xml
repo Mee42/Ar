@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2c327334-2023-4628-81ea-0828a3e44526" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/carson.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/carson.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/StandardLibrary.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/StandardLibrary.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Value.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Value.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Variables.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Variables.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parse/Parser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parse/Parser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/MainTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/MainTests.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,9 +102,25 @@
       <recent name="$PROJECT_DIR$/temp" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.MainTests">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ar.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dev.mee42.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="dev.mee42.MainTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -139,6 +156,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.MainTests" />
         <item itemvalue="Kotlin.dev.mee42.MainKt" />
       </list>
     </recent_temporary>
@@ -177,7 +195,9 @@
       <workItem from="1582508232947" duration="2927000" />
       <workItem from="1582579868439" duration="395000" />
       <workItem from="1583369934872" duration="4414000" />
-      <workItem from="1583441793480" duration="1943000" />
+      <workItem from="1583441793480" duration="2415000" />
+      <workItem from="1583604750091" duration="1798000" />
+      <workItem from="1583617748175" duration="3026000" />
     </task>
     <servers />
   </component>
@@ -193,10 +213,10 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2251" y="255" width="768" height="609" key="#com.intellij.ide.fileTemplates.ui.ConfigureTemplatesDialog/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1582493337010" />
-    <state x="2381" y="363" width="436" height="552" key="#com.intellij.ide.util.MemberChooser" timestamp="1583264125068">
+    <state x="2379" y="345" width="436" height="552" key="#com.intellij.ide.util.MemberChooser" timestamp="1583618649721">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
-    <state x="2381" y="363" width="436" height="552" key="#com.intellij.ide.util.MemberChooser/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583264125068" />
+    <state x="2379" y="345" width="436" height="552" key="#com.intellij.ide.util.MemberChooser/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583618649721" />
     <state x="2252" y="266" width="765" height="604" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1582333818749">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
@@ -213,26 +233,26 @@
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state x="2414" y="290" width="428" height="474" key="FileChooserDialogImpl/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1582493523390" />
-    <state width="1838" height="401" key="GridCell.Tab.0.bottom" timestamp="1583442662968">
+    <state width="1838" height="401" key="GridCell.Tab.0.bottom" timestamp="1583620761124">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state width="1320" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1582580278860" />
-    <state width="1838" height="401" key="GridCell.Tab.0.bottom/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583442662968" />
-    <state width="1838" height="401" key="GridCell.Tab.0.center" timestamp="1583442662968">
+    <state width="1838" height="401" key="GridCell.Tab.0.bottom/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583620761124" />
+    <state width="1838" height="401" key="GridCell.Tab.0.center" timestamp="1583620761124">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state width="1320" height="239" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1582580278828" />
-    <state width="1838" height="401" key="GridCell.Tab.0.center/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583442662968" />
-    <state width="1838" height="401" key="GridCell.Tab.0.left" timestamp="1583442662968">
+    <state width="1838" height="401" key="GridCell.Tab.0.center/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583620761124" />
+    <state width="1838" height="401" key="GridCell.Tab.0.left" timestamp="1583620761124">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state width="1320" height="239" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1582580278816" />
-    <state width="1838" height="401" key="GridCell.Tab.0.left/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583442662968" />
-    <state width="1838" height="401" key="GridCell.Tab.0.right" timestamp="1583442662968">
+    <state width="1838" height="401" key="GridCell.Tab.0.left/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583620761124" />
+    <state width="1838" height="401" key="GridCell.Tab.0.right" timestamp="1583620761124">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>
     <state width="1320" height="239" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1582580278847" />
-    <state width="1838" height="401" key="GridCell.Tab.0.right/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583442662968" />
+    <state width="1838" height="401" key="GridCell.Tab.0.right/1680.0.1920.1200/0.0.1680.1050/3624.0.1920.1080@1680.0.1920.1200" timestamp="1583620761124" />
     <state x="2134" y="136" key="SettingsEditor" timestamp="1582493457602">
       <screen x="1680" y="0" width="1920" height="1200" />
     </state>

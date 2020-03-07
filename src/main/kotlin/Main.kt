@@ -6,7 +6,6 @@ import kotlin.system.exitProcess
 
 fun main() {
 
-
     val test = """
         id => a -> a
         id = (x => a -> a \ x)
